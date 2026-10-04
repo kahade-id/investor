@@ -32,8 +32,6 @@ import {
   Handshake,
   Heart,
   Lightning,
-  MagnifyingGlass,
-  Megaphone,
   Package,
   ShieldCheck,
   SmileyWink,
@@ -481,11 +479,21 @@ export default function InvestorPage() {
                 Founder & CTO
               </p>
               <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-neutral-600">
-                Membangun seluruh sistem Kahade sendiri: backend, aplikasi
-                mobile, panel admin, dan web. Tidak ada lapisan antara pembuat
-                produk dan pengguna — feedback langsung menjadi perbaikan.
-                Founder solo berarti bakar uang kecil dan setiap rupiah
-                pendanaan bekerja untuk pertumbuhan, bukan birokrasi.
+                Membangun seluruh sistem Kahade sendiri: arsitektur backend,
+                aplikasi mobile iOS dan Android, panel admin, dan web —
+                termasuk sistem transaksi dengan perlindungan pembeli dan
+                penjual, integrasi payment gateway, notifikasi real-time, dan
+                infrastruktur server production. Tidak ada lapisan antara
+                pembuat produk dan pengguna — feedback langsung menjadi
+                perbaikan. Founder solo berarti bakar uang kecil dan setiap
+                rupiah pendanaan bekerja untuk pertumbuhan, bukan birokrasi.
+              </p>
+              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-neutral-600">
+                <span className="font-semibold text-black">
+                  Setelah pendanaan awal:
+                </span>{" "}
+                merekrut Co-Founder (bisnis/operasional), COO, 2–3 engineer,
+                1 desainer produk, dan 1 community manager.
               </p>
             </div>
           </Card>
@@ -503,9 +511,36 @@ export default function InvestorPage() {
           <h3 className="mb-4 text-lg font-bold">Alokasi dana</h3>
           <div className="mb-10 space-y-4">
             <Progress label="Marketing & akuisisi user — program komunitas, kreator, insentif awal" value={50} />
-            <Progress label="Operasional & tim — tim inti, server, operasional" value={30} />
-            <Progress label="Pengembangan lanjutan — fitur pasca-launch, optimasi" value={20} />
+            <Progress label="Operasional & tim — gaji tim inti, server, operasional" value={30} />
+            <Progress label="Pengembangan lanjutan — fitur pasca-launch, optimasi, riset blockchain" value={20} />
           </div>
+          <h3 className="mb-4 text-lg font-bold">Proyeksi 12 bulan</h3>
+          <div className="mb-10">
+            <Steps
+              current={0}
+              steps={[
+                {
+                  label: "Bulan 1–3",
+                  description: "Fokus akuisisi 1.000–5.000 pengguna awal; burn rate moderat, pembelajaran di atas segalanya",
+                },
+                {
+                  label: "Bulan 4–6",
+                  description: "Dorong menuju 1 juta transaksi; unit economics diuji dengan data nyata",
+                },
+                {
+                  label: "Bulan 7–12",
+                  description: "Bila traksi sesuai target, siapkan putaran seed dengan valuasi lebih tinggi",
+                },
+              ]}
+            />
+          </div>
+          <h3 className="mb-4 text-lg font-bold">Struktur investasi yang fleksibel</h3>
+          <p className="mb-10 max-w-3xl text-[15px] leading-relaxed text-neutral-600">
+            Saham langsung di PT Kawal Hak Dengan Aman, atau{" "}
+            <span className="font-semibold text-black">convertible note</span>{" "}
+            yang dikonversi menjadi saham pada putaran berikutnya dengan diskon
+            valuasi.
+          </p>
           <h3 className="mb-4 text-lg font-bold">Mengapa berinvestasi sekarang</h3>
           <div className="grid gap-5 md:grid-cols-2">
             {[
@@ -544,6 +579,11 @@ export default function InvestorPage() {
             upside moonshot, sementara rencana bisnis inti memberi jalur jelas
             menuju profitabilitas.
           </Alert>
+          <div className="mt-8">
+            <ButtonLink href="#kontak" size="lg" rightIcon={ArrowRight}>
+              Tertarik berinvestasi? Hubungi kami
+            </ButtonLink>
+          </div>
         </section>
 
         <Divider />
@@ -553,7 +593,7 @@ export default function InvestorPage() {
           <SectionHead
             eyebrow="Kontak"
             title="Mari bicara"
-            desc="Tertarik berinvestasi atau ingin tahu lebih dalam? Whitepaper lengkap (17 bab) tersedia untuk diunduh."
+            desc="Tertarik berinvestasi atau ingin tahu lebih dalam? Whitepaper lengkap (17 bab) tersedia untuk diunduh. Kami merespons maksimal 2 hari kerja."
           />
           <Card className="flex flex-col items-start gap-5 p-7 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4">
@@ -569,6 +609,13 @@ export default function InvestorPage() {
               <CopyButton text={EMAIL} label="Salin email" />
               <ButtonLink href={`mailto:${EMAIL}?subject=Investasi%20Pre-Seed%20Kahade`} rightIcon={ArrowSquareOut}>
                 Kirim email
+              </ButtonLink>
+              <ButtonLink
+                href={`mailto:${EMAIL}?subject=Jadwal%20Call%20—%20Investasi%20Pre-Seed%20Kahade&body=Halo%2C%0A%0ASaya%20tertarik%20berdiskusi%20lebih%20lanjut%20tentang%20investasi%20pre-seed%20Kahade.%20Mohon%20info%20jadwal%20yang%20tersedia.%0A%0ATerima%20kasih.`}
+                variant="secondary"
+                rightIcon={ArrowSquareOut}
+              >
+                Jadwalkan panggilan
               </ButtonLink>
             </div>
           </Card>
