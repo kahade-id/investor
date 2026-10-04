@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
   },
+  themeColor: "#ffffff",
   openGraph: {
     type: "website",
     locale: "id_ID",

@@ -588,14 +588,38 @@ export default function InvestorPage() {
 
       {/* ── Footer ──────────────────────────────────────── */}
       <footer className="border-t border-neutral-100">
-        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 px-5 py-8 sm:flex-row sm:items-center">
-          <div className="flex items-center gap-2.5">
-            <Logo size={24} />
-            <span className="text-sm font-bold">Kahade</span>
+        <div className="mx-auto max-w-6xl px-5 py-8">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div className="flex items-center gap-2.5">
+              <Logo size={24} />
+              <span className="text-sm font-bold">Kahade</span>
+            </div>
+            <nav
+              aria-label="Situs Kahade"
+              className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm"
+            >
+              {[
+                { label: "kahade.id", href: "https://kahade.id" },
+                { label: "Karir", href: "https://karir.kahade.id" },
+                { label: "Legalitas", href: "https://legal.kahade.id" },
+                { label: "Bantuan", href: "https://bantuan.kahade.id" },
+                { label: "Status Layanan", href: "https://status.kahade.id" },
+                { label: "Artikel", href: "https://artikel.kahade.id" },
+              ].map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  className="text-neutral-500 transition-colors hover:text-black"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </nav>
           </div>
-          <p className="flex items-center gap-1.5 text-xs text-neutral-500">
+          <p className="mt-4 flex items-center gap-1.5 text-xs text-neutral-500">
             <Icon icon={Buildings} size={14} />
-            PT Kawal Hak Dengan Aman · NIB & NPWP terbit · © 2026
+            PT Kawal Hak Dengan Aman · NIB & NPWP terbit · ©{" "}
+            {new Date().getFullYear()}
           </p>
         </div>
       </footer>
