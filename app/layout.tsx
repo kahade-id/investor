@@ -13,7 +13,14 @@ export const metadata: Metadata = {
     canonical: "https://investor.kahade.id",
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   // themeColor dipindah ke export `viewport` (metadata themeColor deprecated di Next 15+).
   openGraph: {

@@ -167,7 +167,10 @@ export default function InvestorPage() {
       <header className="sticky top-0 z-50 border-b border-neutral-100 bg-white/85 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
           <a href="#hero" className="flex items-center gap-2.5">
-            <Logo size={28} />
+            {/* Logo dekoratif: teks "Kahade" di sebelahnya sudah diumumkan SR. */}
+            <span aria-hidden="true">
+              <Logo size={28} />
+            </span>
             <span className="text-lg font-extrabold tracking-tight">Kahade</span>
             <Badge variant="neutral" className="ml-1 hidden sm:inline-flex">
               Investor
@@ -713,7 +716,10 @@ export default function InvestorPage() {
         <div className="mx-auto max-w-6xl px-5 py-8">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <div className="flex items-center gap-2.5">
-              <Logo size={24} />
+              {/* Logo dekoratif: teks "Kahade" di sebelahnya sudah diumumkan SR. */}
+              <span aria-hidden="true">
+                <Logo size={24} />
+              </span>
               <span className="text-sm font-bold">Kahade</span>
             </div>
             <nav

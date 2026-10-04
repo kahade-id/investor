@@ -19,7 +19,10 @@ export default function Error({
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white px-5">
       <div className="mb-6 flex items-center gap-2.5">
-        <Logo size={26} />
+        {/* Logo dekoratif: teks "Kahade Investor" di sebelahnya sudah diumumkan SR. */}
+        <span aria-hidden="true">
+          <Logo size={26} />
+        </span>
         <span className="text-base font-extrabold tracking-tight text-black">
           Kahade Investor
         </span>
