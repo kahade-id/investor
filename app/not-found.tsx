@@ -11,10 +11,10 @@ export default function NotFound() {
         </span>
       </div>
       <main>
-        <h1 className="sr-only">Halaman tidak ditemukan</h1>
         <EmptyState
           icon={MagnifyingGlass}
           title="Halaman tidak ditemukan"
+          headingLevel={1}
           description="Alamat yang kamu tuju tidak ada atau sudah dipindahkan."
           action={<ButtonLink href="/">Kembali ke beranda</ButtonLink>}
         />
