@@ -20,6 +20,16 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // Whitepaper PDF: cache 1 jam (pola sama dengan legal.kahade.id, batch 7).
+      {
+        source: "/whitepaper-kahade.pdf",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, must-revalidate",
+          },
+        ],
+      },
     ];
   },
 };

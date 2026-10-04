@@ -221,8 +221,8 @@ export default function InvestorPage() {
               </ButtonLink>
             </div>
             <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <Stat label="Launch publik" value="8 Des 2026" />
-              <Stat label="Target 6 bulan" value="1 jt transaksi" />
+              <Stat label="Launch publik" value="8 Desember 2026" />
+              <Stat label="Target 6 bulan" value="1 juta transaksi" />
               <Stat label="Biaya transaksi" value="2,5%" hint="Min Rp2.500 · maks Rp250.000" />
             </div>
           </div>
@@ -367,7 +367,7 @@ export default function InvestorPage() {
                 Kahade Plus
               </p>
               <p className="mt-2 text-5xl font-extrabold tracking-tight">
-                Rp99<span className="text-xl font-bold text-neutral-500">rb/bln</span>
+                Rp99.000<span className="text-xl font-bold text-neutral-500">/bln</span>
               </p>
               <p className="mt-1 text-sm text-neutral-500">
                 atau Rp899.000/tahun{" "}
