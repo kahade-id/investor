@@ -142,6 +142,24 @@ const faqJsonLd = {
   })),
 };
 
+// JSON-LD Organization — logo memakai favicon.svg (file yang benar-benar ada di public/).
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "PT Kawal Hak Dengan Aman",
+  url: "https://investor.kahade.id",
+  logo: "https://investor.kahade.id/favicon.svg",
+  sameAs: [
+    "https://kahade.id",
+    "https://karir.kahade.id",
+    "https://legal.kahade.id",
+    "https://bantuan.kahade.id",
+    "https://status.kahade.id",
+    "https://investor.kahade.id",
+    "https://artikel.kahade.id",
+  ],
+};
+
 export default function InvestorPage() {
   return (
     <div className="min-h-screen bg-white text-black">
@@ -627,6 +645,10 @@ export default function InvestorPage() {
             eyebrow="FAQ"
             title="Pertanyaan umum"
             desc="Hal yang paling sering ditanyakan calon investor tentang putaran pre-seed Kahade."
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
           />
           <script
             type="application/ld+json"

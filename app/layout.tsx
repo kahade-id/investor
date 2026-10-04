@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 const GOOGLE_FONTS_URL =
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
   },
-  themeColor: "#ffffff",
+  // themeColor dipindah ke export `viewport` (metadata themeColor deprecated di Next 15+).
   openGraph: {
     type: "website",
     locale: "id_ID",
@@ -30,6 +30,10 @@ export const metadata: Metadata = {
     description:
       "Peluang investasi startup Indonesia. Pre-seed Rp100–500 juta, launch 8 Desember 2026.",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
