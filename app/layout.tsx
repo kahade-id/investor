@@ -5,9 +5,9 @@ const GOOGLE_FONTS_URL =
   "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap";
 
 export const metadata: Metadata = {
-  title: "Kahade — Peluang Investasi Pre-Seed",
+  title: "Investasi Startup Pre-Seed — Kahade",
   description:
-    "Kahade adalah aplikasi jual-beli pengguna ke pengguna yang tampilannya seperti media sosial. Pre-seed Rp100–500 juta. Produk sudah jadi, launch 8 Desember 2026.",
+    "Peluang investasi startup Indonesia: Kahade, aplikasi jual-beli pengguna ke pengguna yang tampilannya seperti media sosial. Pre-seed Rp100–500 juta, launch 8 Desember 2026.",
   metadataBase: new URL("https://investor.kahade.id"),
   alternates: {
     canonical: "https://investor.kahade.id",
@@ -20,15 +20,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "id_ID",
     siteName: "Kahade Investor",
-    title: "Kahade — Peluang Investasi Pre-Seed",
+    title: "Investasi Startup Pre-Seed — Kahade",
     description:
-      "Social commerce Indonesia. Produk sudah jadi, launch 8 Desember 2026. Pre-seed Rp100–500 juta.",
+      "Peluang investasi startup Indonesia. Pre-seed Rp100–500 juta, launch 8 Desember 2026.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kahade — Peluang Investasi Pre-Seed",
+    title: "Investasi Startup Pre-Seed — Kahade",
     description:
-      "Social commerce Indonesia. Produk sudah jadi, launch 8 Desember 2026. Pre-seed Rp100–500 juta.",
+      "Peluang investasi startup Indonesia. Pre-seed Rp100–500 juta, launch 8 Desember 2026.",
   },
 };
 

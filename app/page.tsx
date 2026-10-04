@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Accordion,
   Alert,
   Badge,
   Card,
@@ -50,6 +51,7 @@ const NAV = [
   { label: "Moat", href: "#moat" },
   { label: "Tim", href: "#tim" },
   { label: "Pendanaan", href: "#pendanaan" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 function SectionHead({
@@ -84,6 +86,35 @@ function CheckItem({ children }: { children: React.ReactNode }) {
     </li>
   );
 }
+
+const FAQ = [
+  {
+    q: "Berapa minimal investasi?",
+    a: "Putaran pre-seed Kahade dibuka untuk total Rp100–500 juta. Minimal partisipasi per investor bersifat fleksibel — hubungi tim kami untuk mendiskusikannya.",
+  },
+  {
+    q: "Bagaimana struktur investasinya?",
+    a: "Struktur investasi fleksibel: saham langsung di PT Kawal Hak Dengan Aman, atau convertible note dengan diskon valuasi. Detail final disepakati bersama sebelum penandatanganan.",
+  },
+  {
+    q: "Kapan Kahade diluncurkan?",
+    a: "Kahade dijadwalkan diluncurkan pada 8 Desember 2026. Produknya sudah jadi — bukan sekadar ide — dan saat ini dalam tahap persiapan peluncuran.",
+  },
+  {
+    q: "Bagaimana cara menghubungi tim?",
+    a: "Kirim email ke halo@kahade.id — kami merespons maksimal 2 hari kerja. Kamu juga bisa menjadwalkan panggilan langsung dari bagian Kontak di halaman ini.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 
 export default function InvestorPage() {
   return (
@@ -588,7 +619,27 @@ export default function InvestorPage() {
 
         <Divider />
 
-        {/* ── 9. Kontak ─────────────────────────────────── */}
+        {/* ── 9. FAQ ────────────────────────────────────── */}
+        <section id="faq" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
+          <SectionHead
+            eyebrow="FAQ"
+            title="Pertanyaan umum"
+            desc="Hal yang paling sering ditanyakan calon investor tentang putaran pre-seed Kahade."
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+          />
+          <Accordion
+            items={FAQ.map((f, i) => ({
+              id: `faq-${i}`,
+              title: f.q,
+              content: <p className="text-[15px] leading-relaxed text-neutral-600">{f.a}</p>,
+            }))}
+          />
+        </section>
+
+        {/* ── 10. Kontak ─────────────────────────────────── */}
         <section id="kontak" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
           <SectionHead
             eyebrow="Kontak"
