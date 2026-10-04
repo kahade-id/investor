@@ -611,7 +611,7 @@ export default function InvestorPage() {
                 Kirim email
               </ButtonLink>
               <ButtonLink
-                href={`mailto:${EMAIL}?subject=Jadwal%20Call%20—%20Investasi%20Pre-Seed%20Kahade&body=Halo%2C%0A%0ASaya%20tertarik%20berdiskusi%20lebih%20lanjut%20tentang%20investasi%20pre-seed%20Kahade.%20Mohon%20info%20jadwal%20yang%20tersedia.%0A%0ATerima%20kasih.`}
+                href={`mailto:${EMAIL}?subject=Jadwal%20Panggilan%20%E2%80%94%20Investasi%20Pre-Seed%20Kahade&body=Halo%2C%0A%0ASaya%20tertarik%20berdiskusi%20lebih%20lanjut%20tentang%20investasi%20pre-seed%20Kahade.%20Mohon%20info%20jadwal%20yang%20tersedia.%0A%0ATerima%20kasih.`}
                 variant="secondary"
                 rightIcon={ArrowSquareOut}
               >
