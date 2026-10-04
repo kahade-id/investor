@@ -87,6 +87,32 @@ function CheckItem({ children }: { children: React.ReactNode }) {
   );
 }
 
+type IconChipTone = "dark" | "light" | "danger";
+
+const ICON_CHIP_TONES: Record<IconChipTone, { chip: string; icon: string }> = {
+  dark: { chip: "bg-black", icon: "text-white" },
+  light: { chip: "bg-neutral-100", icon: "text-neutral-700" },
+  danger: { chip: "bg-red-50", icon: "text-red-600" },
+};
+
+/** Chip ikon persegi standar untuk kartu (satukan pola yang tadinya 3 warna tersebar). */
+function IconChip({
+  icon,
+  tone = "dark",
+}: {
+  icon: React.ComponentProps<typeof Icon>["icon"];
+  tone?: IconChipTone;
+}) {
+  const t = ICON_CHIP_TONES[tone];
+  return (
+    <span
+      className={`mb-4 flex h-11 w-11 items-center justify-center rounded-2xl ${t.chip}`}
+    >
+      <Icon icon={icon} size={22} className={t.icon} />
+    </span>
+  );
+}
+
 const FAQ = [
   {
     q: "Berapa minimal investasi?",
@@ -192,9 +218,7 @@ export default function InvestorPage() {
           />
           <div className="grid gap-5 md:grid-cols-3">
             <Card className="p-6">
-              <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-red-50">
-                <Icon icon={WarningDiamond} size={22} className="text-red-600" />
-              </span>
+              <IconChip icon={WarningDiamond} tone="danger" />
               <h3 className="mb-2 text-lg font-bold">Jual-beli via DM rawan penipuan</h3>
               <p className="text-[15px] leading-relaxed text-neutral-600">
                 Penjual fiktif, barang tidak sesuai, pembeli nakal, akun
@@ -203,9 +227,7 @@ export default function InvestorPage() {
               </p>
             </Card>
             <Card className="p-6">
-              <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-neutral-100">
-                <Icon icon={SmileyWink} size={22} className="text-neutral-700" />
-              </span>
+              <IconChip icon={SmileyWink} tone="light" />
               <h3 className="mb-2 text-lg font-bold">Marketplace membosankan</h3>
               <p className="text-[15px] leading-relaxed text-neutral-600">
                 Katalog, kolom pencarian, keranjang — seperti belanja di katalog
@@ -214,9 +236,7 @@ export default function InvestorPage() {
               </p>
             </Card>
             <Card className="p-6">
-              <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-neutral-100">
-                <Icon icon={Package} size={22} className="text-neutral-700" />
-              </span>
+              <IconChip icon={Package} tone="light" />
               <h3 className="mb-2 text-lg font-bold">Keterbatasan kategori</h3>
               <p className="text-[15px] leading-relaxed text-neutral-600">
                 Marketplace dirancang untuk barang fisik. Jasa, produk digital,
@@ -272,9 +292,7 @@ export default function InvestorPage() {
           />
           <div className="grid gap-5 md:grid-cols-2">
             <Card className="p-6">
-              <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-neutral-900">
-                <Icon icon={Heart} size={22} className="text-white" />
-              </span>
+              <IconChip icon={Heart} />
               <h3 className="mb-2 text-lg font-bold">Social commerce feed</h3>
               <p className="text-[15px] leading-relaxed text-neutral-600">
                 Scroll feed, temukan barang menarik dari orang yang kamu follow,
@@ -283,9 +301,7 @@ export default function InvestorPage() {
               </p>
             </Card>
             <Card className="p-6">
-              <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-neutral-900">
-                <Icon icon={UsersThree} size={22} className="text-white" />
-              </span>
+              <IconChip icon={UsersThree} />
               <h3 className="mb-2 text-lg font-bold">Fitur unik: patungan & jastip</h3>
               <p className="text-[15px] leading-relaxed text-neutral-600">
                 Fitur yang tidak dimiliki marketplace katalog: beli bareng
@@ -311,9 +327,7 @@ export default function InvestorPage() {
           />
           <div className="grid gap-5 md:grid-cols-2">
             <Card className="p-7">
-              <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-black">
-                <Icon icon={CurrencyCircleDollar} size={22} className="text-white" />
-              </span>
+              <IconChip icon={CurrencyCircleDollar} />
               <p className="text-sm font-semibold uppercase tracking-wide text-neutral-500">
                 Biaya transaksi
               </p>
@@ -327,9 +341,7 @@ export default function InvestorPage() {
               </div>
             </Card>
             <Card className="p-7">
-              <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-black">
-                <Icon icon={Lightning} size={22} className="text-white" />
-              </span>
+              <IconChip icon={Lightning} />
               <p className="text-sm font-semibold uppercase tracking-wide text-neutral-500">
                 Kahade Plus
               </p>
@@ -443,9 +455,7 @@ export default function InvestorPage() {
           />
           <div className="grid gap-5 md:grid-cols-2">
             <Card className="p-6">
-              <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-neutral-900">
-                <Icon icon={TrendUp} size={22} className="text-white" />
-              </span>
+              <IconChip icon={TrendUp} />
               <h3 className="mb-2 text-lg font-bold">Network effect bersisi sosial</h3>
               <p className="text-[15px] leading-relaxed text-neutral-600">
                 Makin banyak penjual, makin menarik feed-nya; makin banyak
@@ -455,9 +465,7 @@ export default function InvestorPage() {
               </p>
             </Card>
             <Card className="p-6">
-              <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-neutral-900">
-                <Icon icon={Handshake} size={22} className="text-white" />
-              </span>
+              <IconChip icon={Handshake} />
               <h3 className="mb-2 text-lg font-bold">Kepercayaan komunitas organik</h3>
               <p className="text-[15px] leading-relaxed text-neutral-600">
                 Dibangun dari bawah lewat interaksi nyata dan ulasan jujur —
@@ -466,9 +474,7 @@ export default function InvestorPage() {
               </p>
             </Card>
             <Card className="p-6">
-              <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-neutral-900">
-                <Icon icon={ShieldCheck} size={22} className="text-white" />
-              </span>
+              <IconChip icon={ShieldCheck} />
               <h3 className="mb-2 text-lg font-bold">Innovator dilemma kompetitor</h3>
               <p className="text-[15px] leading-relaxed text-neutral-600">
                 Shopee dan TikTok Shop bisa meniru feed sosial — tapi tidak akan
@@ -478,9 +484,7 @@ export default function InvestorPage() {
               </p>
             </Card>
             <Card className="p-6">
-              <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-neutral-900">
-                <Icon icon={Lightning} size={22} className="text-white" />
-              </span>
+              <IconChip icon={Lightning} />
               <h3 className="mb-2 text-lg font-bold">Kecepatan eksekusi</h3>
               <p className="text-[15px] leading-relaxed text-neutral-600">
                 Tim ramping: keputusan dalam hitungan jam, fitur baru dalam
@@ -597,9 +601,7 @@ export default function InvestorPage() {
               },
             ].map((r) => (
               <Card key={r.title} className="p-6">
-                <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-neutral-100">
-                  <Icon icon={r.icon} size={22} className="text-black" />
-                </span>
+                <IconChip icon={r.icon} tone="light" />
                 <h4 className="mb-1.5 font-bold">{r.title}</h4>
                 <p className="text-[15px] text-neutral-600">{r.desc}</p>
               </Card>
