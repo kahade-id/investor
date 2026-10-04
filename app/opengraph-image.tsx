@@ -44,7 +44,7 @@ export default function OgImage() {
           <div>Investasi di Kahade</div>
         </div>
         <div style={{ marginTop: "24px", fontSize: "28px", color: "#525252" }}>
-          Peluang pre-seed social commerce Indonesia.
+          Peluang pre-seed niaga sosial Indonesia.
         </div>
         <div style={{ marginTop: "12px", fontSize: "24px", color: "#a3a3a3" }}>
           investor.kahade.id

@@ -10,12 +10,15 @@ export default function NotFound() {
           Kahade Investor
         </span>
       </div>
-      <EmptyState
-        icon={MagnifyingGlass}
-        title="Halaman tidak ditemukan"
-        description="Alamat yang kamu tuju tidak ada atau sudah dipindahkan."
-        action={<ButtonLink href="/">Kembali ke beranda</ButtonLink>}
-      />
+      <main>
+        <h1 className="sr-only">Halaman tidak ditemukan</h1>
+        <EmptyState
+          icon={MagnifyingGlass}
+          title="Halaman tidak ditemukan"
+          description="Alamat yang kamu tuju tidak ada atau sudah dipindahkan."
+          action={<ButtonLink href="/">Kembali ke beranda</ButtonLink>}
+        />
+      </main>
     </div>
   );
 }
