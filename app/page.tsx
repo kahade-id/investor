@@ -4,6 +4,7 @@ import {
   Accordion,
   Alert,
   Badge,
+  ButtonLink,
   Card,
   CopyButton,
   Divider,
@@ -19,7 +20,6 @@ import {
   THead,
   TR,
 } from "@kahade/ui";
-import { ButtonLink } from "../components/ButtonLink";
 import {
   ArrowRight,
   ArrowSquareOut,
