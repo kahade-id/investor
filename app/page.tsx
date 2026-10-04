@@ -3,7 +3,6 @@
 import {
   Alert,
   Badge,
-  Button,
   Card,
   CopyButton,
   Divider,
@@ -19,6 +18,7 @@ import {
   THead,
   TR,
 } from "@kahade/ui";
+import { ButtonLink } from "../components/ButtonLink";
 import {
   ArrowRight,
   ArrowSquareOut,
@@ -111,15 +111,13 @@ export default function InvestorPage() {
               </a>
             ))}
           </nav>
-          <a href="/whitepaper-kahade.pdf" download>
-            <Button size="sm" leftIcon={DownloadSimple}>
-              Whitepaper
-            </Button>
-          </a>
+          <ButtonLink href="/whitepaper-kahade.pdf" download size="sm" leftIcon={DownloadSimple}>
+            Whitepaper
+          </ButtonLink>
         </div>
       </header>
 
-      <main>
+      <main id="konten">
         {/* ── 1. Hero ───────────────────────────────────── */}
         <section id="hero" className="mx-auto max-w-6xl px-5 pb-20 pt-16 sm:pt-24">
           <div className="max-w-3xl">
@@ -139,16 +137,12 @@ export default function InvestorPage() {
               dengan keamanan transaksi setara marketplace.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="/whitepaper-kahade.pdf" download>
-                <Button size="lg" leftIcon={DownloadSimple}>
-                  Unduh Whitepaper
-                </Button>
-              </a>
-              <a href="#kontak">
-                <Button size="lg" variant="secondary" rightIcon={ArrowRight}>
-                  Hubungi Kami
-                </Button>
-              </a>
+              <ButtonLink href="/whitepaper-kahade.pdf" download size="lg" leftIcon={DownloadSimple}>
+                Unduh Whitepaper
+              </ButtonLink>
+              <ButtonLink href="#kontak" size="lg" variant="secondary" rightIcon={ArrowRight}>
+                Hubungi Kami
+              </ButtonLink>
             </div>
             <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3">
               <Stat label="Launch publik" value="8 Des 2026" />
@@ -314,7 +308,8 @@ export default function InvestorPage() {
                 Rp99<span className="text-xl font-bold text-neutral-500">rb/bln</span>
               </p>
               <p className="mt-1 text-sm text-neutral-500">
-                atau Rp899.000/tahun
+                atau Rp899.000/tahun{" "}
+                <span className="font-semibold text-neutral-700">(hemat ~24%)</span>
               </p>
               <ul className="mt-4 space-y-2.5">
                 <CheckItem>Potongan 50% biaya transaksi</CheckItem>
@@ -344,7 +339,7 @@ export default function InvestorPage() {
               <h3 className="mb-4 text-lg font-bold">Yang sudah berjalan</h3>
               <ul className="space-y-3">
                 <CheckItem>Backend API lengkap (300+ endpoint)</CheckItem>
-                <CheckItem>Aplikasi mobile iOS & Android: feed, etalase, chat, checkout</CheckItem>
+                <CheckItem>Aplikasi mobile iOS & Android: feed, etalase, chat, checkout, dompet transaksi</CheckItem>
                 <CheckItem>Panel admin: moderasi, keuangan, sengketa, analitik</CheckItem>
                 <CheckItem>Web kahade.id: landing + handler deeplink</CheckItem>
                 <CheckItem>Badan hukum: PT Kawal Hak Dengan Aman (NIB & NPWP terbit)</CheckItem>
@@ -375,6 +370,38 @@ export default function InvestorPage() {
               />
             </div>
           </div>
+          <h3 className="mb-4 mt-12 text-xl font-bold">Go-to-market: mulai dari komunitas</h3>
+          <p className="mb-5 max-w-3xl text-[15px] leading-relaxed text-neutral-600">
+            Tanpa iklan massal. Akuisisi awal berfokus pada empat komunitas yang
+            sudah punya budaya jual-beli aktif — didukung kreator
+            micro-influencer (10rb–100rb followers) yang memang berjualan di
+            Kahade.
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                title: "Thrift / preloved",
+                desc: "Transaksi harian, harga terjangkau — cocok untuk volume.",
+              },
+              {
+                title: "Sneakers & streetwear",
+                desc: "Nilai transaksi tinggi, budaya kepercayaan komunitas kuat.",
+              },
+              {
+                title: "Fandom K-pop",
+                desc: "Frekuensi jual-beli photocard & merch sangat tinggi.",
+              },
+              {
+                title: "Kampus",
+                desc: "Early adopter alami: melek digital dan terbiasa patungan.",
+              },
+            ].map((c) => (
+              <Card key={c.title} className="p-5">
+                <h4 className="mb-1.5 font-bold">{c.title}</h4>
+                <p className="text-sm leading-relaxed text-neutral-600">{c.desc}</p>
+              </Card>
+            ))}
+          </div>
         </section>
 
         <Divider />
@@ -383,7 +410,7 @@ export default function InvestorPage() {
         <section id="moat" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
           <SectionHead
             eyebrow="Keunggulan kompetitif"
-            title="Tiga alasan fundamental — bukan janji manis"
+            title="Sulit ditiru, sulit dikejar"
           />
           <div className="grid gap-5 md:grid-cols-2">
             <Card className="p-6">
@@ -540,27 +567,21 @@ export default function InvestorPage() {
             </div>
             <div className="flex flex-wrap gap-3">
               <CopyButton text={EMAIL} label="Salin email" />
-              <a href={`mailto:${EMAIL}?subject=Investasi%20Pre-Seed%20Kahade`}>
-                <Button rightIcon={ArrowSquareOut}>Kirim email</Button>
-              </a>
+              <ButtonLink href={`mailto:${EMAIL}?subject=Investasi%20Pre-Seed%20Kahade`} rightIcon={ArrowSquareOut}>
+                Kirim email
+              </ButtonLink>
             </div>
           </Card>
           <div className="mt-5 flex flex-wrap gap-3">
-            <a href="/whitepaper-kahade.pdf" download>
-              <Button variant="secondary" leftIcon={FileText}>
-                Unduh whitepaper (PDF)
-              </Button>
-            </a>
-            <a href="https://kahade.id" target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" rightIcon={ArrowSquareOut}>
-                kahade.id
-              </Button>
-            </a>
-            <a href="https://karir.kahade.id" target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" rightIcon={ArrowSquareOut}>
-                karir.kahade.id
-              </Button>
-            </a>
+            <ButtonLink href="/whitepaper-kahade.pdf" download variant="secondary" leftIcon={FileText}>
+              Unduh whitepaper (PDF)
+            </ButtonLink>
+            <ButtonLink href="https://kahade.id" target="_blank" rel="noopener noreferrer" variant="ghost" rightIcon={ArrowSquareOut}>
+              kahade.id
+            </ButtonLink>
+            <ButtonLink href="https://karir.kahade.id" target="_blank" rel="noopener noreferrer" variant="ghost" rightIcon={ArrowSquareOut}>
+              karir.kahade.id
+            </ButtonLink>
           </div>
         </section>
       </main>
@@ -579,11 +600,6 @@ export default function InvestorPage() {
         </div>
       </footer>
 
-      {/* GTM note */}
-      <div className="sr-only">
-        Go-to-market: komunitas thrift/preloved, sneakers & streetwear, fandom
-        K-pop, dan kampus. Kreator micro-influencer 10rb–100rb followers.
-      </div>
     </div>
   );
 }

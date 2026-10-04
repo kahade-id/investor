@@ -9,10 +9,22 @@ export const metadata: Metadata = {
   description:
     "Kahade adalah aplikasi jual-beli pengguna ke pengguna yang tampilannya seperti media sosial. Pre-seed Rp100–500 juta. Produk sudah jadi, launch 8 Desember 2026.",
   metadataBase: new URL("https://investor.kahade.id"),
+  alternates: {
+    canonical: "https://investor.kahade.id",
+  },
+  icons: {
+    icon: "/favicon.svg",
+  },
   openGraph: {
     type: "website",
     locale: "id_ID",
     siteName: "Kahade Investor",
+    title: "Kahade — Peluang Investasi Pre-Seed",
+    description:
+      "Social commerce Indonesia. Produk sudah jadi, launch 8 Desember 2026. Pre-seed Rp100–500 juta.",
+  },
+  twitter: {
+    card: "summary_large_image",
     title: "Kahade — Peluang Investasi Pre-Seed",
     description:
       "Social commerce Indonesia. Produk sudah jadi, launch 8 Desember 2026. Pre-seed Rp100–500 juta.",
@@ -35,7 +47,15 @@ export default function RootLayout({
         />
         <link href={GOOGLE_FONTS_URL} rel="stylesheet" />
       </head>
-      <body>{children}</body>
+      <body>
+        <a
+          href="#konten"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-black focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+        >
+          Lewati ke konten
+        </a>
+        {children}
+      </body>
     </html>
   );
 }
