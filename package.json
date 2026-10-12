@@ -1,13 +1,13 @@
 {
   "dependencies": {
-    "@kahade/ui": "github:kahade-id/design-system#v0.5.2",
+    "@kahade/ui": "github:kahade-id/design-system#d7e24325a6e29847e28afdf52be2019c567adbf6",
     "@phosphor-icons/react": "^2.1.10",
     "next": "^16.3.8",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "tailwindcss": "^4.3.3"
   },
-  "description": "Halaman investor Kahade \u2014 investor.kahade.id",
+  "description": "Halaman investor Kahade — investor.kahade.id",
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^22.0.0",

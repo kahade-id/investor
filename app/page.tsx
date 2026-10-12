@@ -1,117 +1,234 @@
-"use client";
-
+import type { ReactNode } from "react";
 import {
   Accordion,
-  Alert,
-  Badge,
+  Avatar,
   ButtonLink,
-  Card,
+  Container,
   CopyButton,
-  Divider,
+  DescriptionList,
+  Eyebrow,
   Icon,
-  Logo,
-  Progress,
+  IndexList,
+  PageHeader,
+  SectionHeader,
   Stat,
   Steps,
   Table,
   TBody,
   TD,
+  TextLink,
   TH,
   THead,
+  Toc,
   TR,
+  type TocItem,
 } from "@kahade/ui";
+import { Check } from "@phosphor-icons/react/dist/ssr";
 import {
-  ArrowRight,
-  ArrowSquareOut,
-  Buildings,
-  ChartLineUp,
-  Check,
-  CurrencyCircleDollar,
-  DownloadSimple,
-  EnvelopeSimple,
-  FileText,
-  Handshake,
-  Heart,
-  Lightning,
-  Package,
-  ShieldCheck,
-  SmileyWink,
-  TrendUp,
-  UsersThree,
-  WarningDiamond,
-} from "@phosphor-icons/react/dist/ssr";
+  ContactLink,
+  WHITEPAPER_HREF,
+  WhitepaperLink,
+} from "@/components/investor/ActionLink";
 
 const EMAIL = "halo@kahade.id"; // PLACEHOLDER: ganti dengan email investor resmi bila ada
 
-const NAV = [
-  { label: "Masalah", href: "#masalah" },
-  { label: "Solusi", href: "#solusi" },
-  { label: "Model Bisnis", href: "#model-bisnis" },
-  { label: "Traksi", href: "#traksi" },
-  { label: "Moat", href: "#moat" },
-  { label: "Tim", href: "#tim" },
-  { label: "Pendanaan", href: "#pendanaan" },
-  { label: "FAQ", href: "#faq" },
+const MAIL_INVEST = `mailto:${EMAIL}?subject=Investasi%20Pre-Seed%20Kahade`;
+const MAIL_CALL = `mailto:${EMAIL}?subject=Jadwal%20Panggilan%20%E2%80%94%20Investasi%20Pre-Seed%20Kahade&body=Halo%2C%0A%0ASaya%20tertarik%20berdiskusi%20lebih%20lanjut%20tentang%20investasi%20pre-seed%20Kahade.%20Mohon%20info%20jadwal%20yang%20tersedia.%0A%0ATerima%20kasih.`;
+
+/* ── Isi ──────────────────────────────────────────────────────────── */
+
+const SECTIONS = [
+  { id: "masalah", label: "Masalah" },
+  { id: "solusi", label: "Solusi" },
+  { id: "model-bisnis", label: "Model bisnis" },
+  { id: "traksi", label: "Traksi & rencana" },
+  { id: "moat", label: "Keunggulan kompetitif" },
+  { id: "tim", label: "Tim" },
+  { id: "pendanaan", label: "Pendanaan" },
+  { id: "faq", label: "FAQ" },
+  { id: "kontak", label: "Kontak" },
+] as const;
+
+type SectionId = (typeof SECTIONS)[number]["id"];
+
+const TOC: TocItem[] = SECTIONS.map((s) => ({ id: s.id, label: s.label }));
+
+/** Nomor urut seksi dua digit ("01"), bersumber dari urutan SECTIONS. */
+function indexOf(id: SectionId): string {
+  return String(SECTIONS.findIndex((s) => s.id === id) + 1).padStart(2, "0");
+}
+
+const KEY_FACTS = [
+  { label: "Putaran pre-seed", value: "Rp100–500 juta" },
+  { label: "Launch publik", value: "8 Desember 2026" },
+  { label: "Target 6 bulan", value: "1 juta transaksi" },
+  { label: "Biaya transaksi", value: "2,5%", hint: "Min Rp2.500 · maks Rp250.000" },
 ];
 
-function SectionHead({
-  eyebrow,
-  title,
-  desc,
-}: {
-  eyebrow: string;
-  title: string;
-  desc?: string;
-}) {
-  return (
-    <div className="mb-10 max-w-2xl">
-      <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">
-        {eyebrow}
-      </p>
-      <h2 className="text-3xl font-extrabold tracking-tight text-black sm:text-4xl">
-        {title}
-      </h2>
-      {desc && <p className="mt-3 text-base leading-relaxed text-neutral-600">{desc}</p>}
-    </div>
-  );
-}
+const PROBLEMS = [
+  {
+    title: "Jual-beli via DM rawan penipuan",
+    desc: "Penjual fiktif, barang tidak sesuai, pembeli nakal, akun kloningan. Tidak ada pihak ketiga yang menjamin transaksi — korban penipuan online mencapai ratusan ribu kasus per tahun.",
+  },
+  {
+    title: "Marketplace membosankan",
+    desc: "Katalog, kolom pencarian, keranjang — seperti belanja di katalog tahun 2010. Generasi yang menghabiskan 3–4 jam sehari di medsos tidak “menemukan” barang, mereka disuruh “mencari” barang.",
+  },
+  {
+    title: "Keterbatasan kategori",
+    desc: "Marketplace dirancang untuk barang fisik. Jasa, produk digital, dan barang preloved unik tidak pernah pas di format katalog — penjualnya terpaksa kembali ke DM yang tidak aman.",
+  },
+];
 
-function CheckItem({ children }: { children: React.ReactNode }) {
-  return (
-    <li className="flex items-start gap-3">
-      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-black">
-        <Icon icon={Check} size={14} weight="bold" className="text-white" />
-      </span>
-      <span className="text-[15px] leading-relaxed text-neutral-700">{children}</span>
-    </li>
-  );
-}
+const MARKET_GAP = [
+  ["Pengalaman sosial", "Seru", "Kaku", "Seru"],
+  ["Keamanan transaksi", "Tidak ada", "Ada", "Ada"],
+  ["Jual jasa & digital", "Fleksibel", "Terbatas", "Fleksibel"],
+  ["Penemuan organik", "Feed", "Katalog", "Feed"],
+] as const;
 
-type IconChipTone = "dark" | "light" | "danger";
+const FEATURES = [
+  {
+    title: "Social commerce feed",
+    desc: "Scroll feed, temukan barang menarik dari orang yang kamu follow, like, komen, chat dengan penjual. Belanja menjadi hiburan: penemuan, interaksi, keseruan — seperti scroll medsos biasa.",
+  },
+  {
+    title: "Fitur unik: patungan & jastip",
+    desc: "Fitur yang tidak dimiliki marketplace katalog: beli bareng (patungan) dan jasa titip (jastip) yang terintegrasi langsung dengan transaksi aman.",
+  },
+];
 
-const ICON_CHIP_TONES: Record<IconChipTone, { chip: string; icon: string }> = {
-  dark: { chip: "bg-black", icon: "text-white" },
-  light: { chip: "bg-neutral-100", icon: "text-neutral-700" },
-  danger: { chip: "bg-red-50", icon: "text-red-600" },
-};
+const PLUS_BENEFITS = [
+  "Potongan 50% biaya transaksi",
+  "Kuota pembebasan biaya Rp990.000 per periode",
+  "Prioritas layanan pelanggan",
+  "Badge Plus di profil",
+];
 
-/** Chip ikon persegi standar untuk kartu (satukan pola yang tadinya 3 warna tersebar). */
-function IconChip({
-  icon,
-  tone = "dark",
-}: {
-  icon: React.ComponentProps<typeof Icon>["icon"];
-  tone?: IconChipTone;
-}) {
-  const t = ICON_CHIP_TONES[tone];
-  return (
-    <span
-      className={`mb-4 flex h-11 w-11 items-center justify-center rounded-2xl ${t.chip}`}
-    >
-      <Icon icon={icon} size={22} className={t.icon} />
-    </span>
-  );
-}
+const SHIPPED = [
+  "Backend API lengkap (300+ endpoint)",
+  "Aplikasi mobile iOS & Android: feed, etalase, chat, checkout, dompet transaksi",
+  "Panel admin: moderasi, keuangan, sengketa, analitik",
+  "Web kahade.id: landing + handler deeplink",
+  "Badan hukum: PT Kawal Hak Dengan Aman (NIB & NPWP terbit)",
+];
+
+const LAUNCH_STEPS = [
+  {
+    label: "Oktober 2026",
+    description: "Finalisasi integrasi pembayaran & pengujian internal",
+  },
+  {
+    label: "November 2026",
+    description: "Beta tertutup 100–200 pengguna komunitas inti",
+  },
+  {
+    label: "8 Desember 2026",
+    description: "Launch publik + 1.000 transaksi pertama gratis biaya",
+  },
+  {
+    label: "6 bulan pasca-launch",
+    description: "1.000.000 transaksi kumulatif",
+  },
+];
+
+const COMMUNITIES = [
+  {
+    title: "Thrift / preloved",
+    desc: "Transaksi harian, harga terjangkau — cocok untuk volume.",
+  },
+  {
+    title: "Sneakers & streetwear",
+    desc: "Nilai transaksi tinggi, budaya kepercayaan komunitas kuat.",
+  },
+  {
+    title: "Fandom K-pop",
+    desc: "Frekuensi jual-beli photocard & merch sangat tinggi.",
+  },
+  {
+    title: "Kampus",
+    desc: "Early adopter alami: melek digital dan terbiasa patungan.",
+  },
+];
+
+const MOATS = [
+  {
+    title: "Network effect bersisi sosial",
+    desc: "Makin banyak penjual, makin menarik feed-nya; makin banyak pembeli, makin besar peluang laku. Memindahkan “toko” berarti meninggalkan followers dan reputasi — switching cost yang emosional, jauh lebih sulit ditiru.",
+  },
+  {
+    title: "Kepercayaan komunitas organik",
+    desc: "Dibangun dari bawah lewat interaksi nyata dan ulasan jujur — tidak bisa dibeli dengan budget iklan sebesar apa pun, dan menyebar sendiri lewat pengguna yang puas.",
+  },
+  {
+    title: "Innovator dilemma kompetitor",
+    desc: "Shopee dan TikTok Shop bisa meniru feed sosial — tapi tidak akan sungguh-sungguh: model katalog mereka akan terkanibalisasi. Fokus mereka brand dan penjual profesional, bukan pengguna individu.",
+  },
+  {
+    title: "Kecepatan eksekusi",
+    desc: "Tim ramping: keputusan dalam hitungan jam, fitur baru dalam hitungan hari. Burn rate rendah berarti runway panjang — setiap rupiah bekerja lebih keras.",
+  },
+];
+
+const HIRING_PLAN = [
+  "Co-Founder (bisnis/operasional)",
+  "COO",
+  "2–3 engineer",
+  "1 desainer produk",
+  "1 community manager",
+];
+
+const ALLOCATION = [
+  {
+    title: "Marketing & akuisisi user",
+    desc: "program komunitas, kreator, insentif awal",
+    value: 50,
+  },
+  {
+    title: "Operasional & tim",
+    desc: "gaji tim inti, server, operasional",
+    value: 30,
+  },
+  {
+    title: "Pengembangan lanjutan",
+    desc: "fitur pasca-launch, optimasi, riset blockchain",
+    value: 20,
+  },
+];
+
+const PROJECTION = [
+  {
+    term: "Bulan 1–3",
+    detail: "Fokus akuisisi 1.000–5.000 pengguna awal; burn rate moderat, pembelajaran di atas segalanya",
+  },
+  {
+    term: "Bulan 4–6",
+    detail: "Dorong menuju 1 juta transaksi; unit economics diuji dengan data nyata",
+  },
+  {
+    term: "Bulan 7–12",
+    detail: "Bila traksi sesuai target, siapkan putaran seed dengan valuasi lebih tinggi",
+  },
+];
+
+const WHY_NOW = [
+  {
+    title: "Valuasi terendah",
+    desc: "Investasi sebelum traksi berarti harga masuk termurah.",
+  },
+  {
+    title: "Risiko eksekusi sudah kecil",
+    desc: "Produk sudah dibangun dan siap launch — bukan sekadar slide.",
+  },
+  {
+    title: "Pasar sudah valid",
+    desc: "Jual-beli via DM adalah perilaku masif yang tinggal dipindahkan.",
+  },
+  {
+    title: "Tim efisien",
+    desc: "Struktur ramping: setiap rupiah bekerja maksimal untuk pertumbuhan.",
+  },
+];
 
 const FAQ = [
   {
@@ -131,6 +248,8 @@ const FAQ = [
     a: "Kirim email ke halo@kahade.id — kami merespons maksimal 2 hari kerja. Kamu juga bisa menjadwalkan panggilan langsung dari bagian Kontak di halaman ini.",
   },
 ];
+
+/* ── JSON-LD ──────────────────────────────────────────────────────── */
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -160,598 +279,497 @@ const orgJsonLd = {
   ],
 };
 
+/* ── Pola lokal ───────────────────────────────────────────────────── */
+
+/** Seksi bernomor di kolom isi; hairline di antara seksi. */
+function MemoSection({
+  id,
+  title,
+  description,
+  children,
+}: {
+  id: SectionId;
+  title: string;
+  description?: string;
+  children: ReactNode;
+}) {
+  const label = SECTIONS.find((s) => s.id === id)?.label ?? "";
+  const first = SECTIONS[0].id === id;
+  // Margin gulir: eyebrow mendarat ±40px di bawah header (64px) saat dilompati dari daftar isi.
+  const scroll = first ? "scroll-mt-26" : "scroll-mt-10 sm:scroll-mt-6 lg:scroll-mt-2";
+  return (
+    <section
+      id={id}
+      className={`border-t border-line py-16 first:border-t-0 first:pt-0 last:pb-4 sm:py-20 lg:py-24 ${scroll}`}
+    >
+      <SectionHeader index={indexOf(id)} eyebrow={label} title={title} description={description} />
+      <div className="mt-10 sm:mt-12">{children}</div>
+    </section>
+  );
+}
+
+/** Sub-judul di dalam seksi. */
+function SubHeading({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return <h3 className={`mb-5 text-h4 text-fg ${className}`}>{children}</h3>;
+}
+
+/** Blok teks berhairline (judul + paragraf) untuk grid dua kolom. */
+function RuleGrid({
+  items,
+  titleAs: Title = "h3",
+}: {
+  items: { title: string; desc: string }[];
+  titleAs?: "h3" | "h4";
+}) {
+  return (
+    <ul className="grid gap-x-10 sm:grid-cols-2">
+      {items.map((item) => (
+        <li key={item.title} className="border-t border-line py-6">
+          <Title className="text-h4 text-fg">{item.title}</Title>
+          <p className="mt-2 text-body text-fg-muted">{item.desc}</p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Daftar periksa berhairline — tanda centang bermakna "sudah ada / termasuk". */
+function CheckList({ items, className = "" }: { items: string[]; className?: string }) {
+  return (
+    <ul className={`border-t border-line ${className}`}>
+      {items.map((item) => (
+        <li key={item} className="flex items-start gap-3 border-b border-line py-3.5">
+          <Icon icon={Check} size={18} className="mt-0.5 text-fg" />
+          <span className="text-body text-fg-2">{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/* ── Halaman ──────────────────────────────────────────────────────── */
+
 export default function InvestorPage() {
   return (
-    <div className="min-h-screen bg-white text-black">
-      {/* ── Nav ─────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 border-b border-neutral-100 bg-white/85 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-          <a href="#hero" className="flex items-center gap-2.5">
-            {/* Logo dekoratif: teks "Kahade" di sebelahnya sudah diumumkan SR. */}
-            <span aria-hidden="true">
-              <Logo size={28} />
-            </span>
-            <span className="text-lg font-extrabold tracking-tight">Kahade</span>
-            <Badge variant="neutral" className="ml-1 hidden sm:inline-flex">
-              Investor
-            </Badge>
-          </a>
-          <nav className="hidden items-center gap-6 lg:flex" aria-label="Navigasi utama">
-            {NAV.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                className="text-sm font-medium text-neutral-600 transition-colors hover:text-black"
-              >
-                {n.label}
-              </a>
-            ))}
-          </nav>
-          <ButtonLink href="/whitepaper-kahade.pdf" download size="sm" leftIcon={DownloadSimple}>
-            Whitepaper
-          </ButtonLink>
-        </div>
-      </header>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
 
-      <main id="konten">
-        {/* ── 1. Hero ───────────────────────────────────── */}
-        <section id="hero" className="mx-auto max-w-6xl px-5 pb-20 pt-16 sm:pt-24">
-          <div className="max-w-3xl">
-            <Badge variant="brand" className="mb-6">
-              Pre-seed · Rp100–500 juta
-            </Badge>
-            <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl">
-              Jual Beli Semudah
-              <br />
-              Scroll Medsos
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-neutral-600">
-              Kahade adalah aplikasi jual-beli pengguna ke pengguna yang
-              tampilannya seperti media sosial. Jutaan anak muda Indonesia sudah
-              jual-beli lewat DM setiap hari — tanpa perlindungan apa pun. Kami
-              memberi mereka tempat yang lebih baik: pengalaman sosial yang seru,
-              dengan keamanan transaksi setara marketplace.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink href="/whitepaper-kahade.pdf" download size="lg" leftIcon={DownloadSimple}>
-                Unduh Whitepaper
-              </ButtonLink>
-              <ButtonLink href="#kontak" size="lg" variant="secondary" rightIcon={ArrowRight}>
-                Hubungi Kami
-              </ButtonLink>
+      <PageHeader
+        size="display"
+        eyebrow="Peluang investasi · Pre-seed"
+        title="Jual beli semudah scroll medsos."
+        lede="Kahade adalah aplikasi jual-beli pengguna ke pengguna yang tampilannya seperti media sosial. Jutaan anak muda Indonesia sudah jual-beli lewat DM setiap hari — tanpa perlindungan apa pun. Kami memberi mereka tempat yang lebih baik: pengalaman sosial yang seru, dengan keamanan transaksi setara marketplace."
+        actions={
+          <>
+            <WhitepaperLink size="lg">Unduh whitepaper</WhitepaperLink>
+            <ContactLink size="lg">Hubungi kami</ContactLink>
+          </>
+        }
+      >
+        <dl
+          className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 sm:mt-16 lg:grid-cols-4 lg:gap-x-8"
+        >
+          {KEY_FACTS.map((f) => (
+            <div key={f.label} className="min-w-0 border-t-2 border-fg pt-4">
+              <dt className="text-small text-fg-muted">{f.label}</dt>
+              <dd className="mt-2 text-h3 font-bold text-fg tabular-nums">{f.value}</dd>
+              {f.hint && (
+                <dd className="mt-1 text-caption text-fg-subtle tabular-nums">{f.hint}</dd>
+              )}
             </div>
-            <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <Stat label="Launch publik" value="8 Desember 2026" />
-              <Stat label="Target 6 bulan" value="1 juta transaksi" />
-              <Stat label="Biaya transaksi" value="2,5%" hint="Min Rp2.500 · maks Rp250.000" />
-            </div>
-          </div>
-        </section>
+          ))}
+        </dl>
+      </PageHeader>
 
-        <Divider />
-
-        {/* ── 2. Masalah ────────────────────────────────── */}
-        <section id="masalah" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
-          <SectionHead
-            eyebrow="Masalah"
-            title="Perilakunya sudah ada. Platformnya belum."
-            desc="Jutaan anak muda Indonesia jual-beli lewat DM Instagram, X, dan WhatsApp setiap hari: thrift, sneakers, merchandise K-pop, jasa desain, produk digital. Tiga masalah besar belum terselesaikan."
-          />
-          <div className="grid gap-5 md:grid-cols-3">
-            <Card className="p-6">
-              <IconChip icon={WarningDiamond} tone="danger" />
-              <h3 className="mb-2 text-lg font-bold">Jual-beli via DM rawan penipuan</h3>
-              <p className="text-[15px] leading-relaxed text-neutral-600">
-                Penjual fiktif, barang tidak sesuai, pembeli nakal, akun
-                kloningan. Tidak ada pihak ketiga yang menjamin transaksi —
-                korban penipuan online mencapai ratusan ribu kasus per tahun.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <IconChip icon={SmileyWink} tone="light" />
-              <h3 className="mb-2 text-lg font-bold">Marketplace membosankan</h3>
-              <p className="text-[15px] leading-relaxed text-neutral-600">
-                Katalog, kolom pencarian, keranjang — seperti belanja di katalog
-                tahun 2010. Generasi yang menghabiskan 3–4 jam sehari di medsos
-                tidak "menemukan" barang, mereka disuruh "mencari" barang.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <IconChip icon={Package} tone="light" />
-              <h3 className="mb-2 text-lg font-bold">Keterbatasan kategori</h3>
-              <p className="text-[15px] leading-relaxed text-neutral-600">
-                Marketplace dirancang untuk barang fisik. Jasa, produk digital,
-                dan barang preloved unik tidak pernah pas di format katalog —
-                penjualnya terpaksa kembali ke DM yang tidak aman.
-              </p>
-            </Card>
-          </div>
-
-          <h3 className="mb-4 mt-12 text-xl font-bold">Celah di pasar</h3>
-          <Card className="overflow-x-auto p-0">
-            <Table>
-              <THead>
-                <TR>
-                  <TH>Aspek</TH>
-                  <TH>Jual-beli via DM</TH>
-                  <TH>Marketplace besar</TH>
-                  <TH>Kahade</TH>
-                </TR>
-              </THead>
-              <TBody>
-                {[
-                  ["Pengalaman sosial", "Seru", "Kaku", "Seru"],
-                  ["Keamanan transaksi", "Tidak ada", "Ada", "Ada"],
-                  ["Jual jasa & digital", "Fleksibel", "Terbatas", "Fleksibel"],
-                  ["Penemuan organik", "Feed", "Katalog", "Feed"],
-                ].map(([aspek, dm, mp, kahade]) => (
-                  <TR key={aspek}>
-                    <TD className="font-semibold">{aspek}</TD>
-                    <TD>{dm}</TD>
-                    <TD>{mp}</TD>
-                    <TD>
-                      <span className="inline-flex items-center gap-1.5 font-semibold text-black">
-                        <Icon icon={Check} size={15} weight="bold" />
-                        {kahade}
-                      </span>
-                    </TD>
-                  </TR>
-                ))}
-              </TBody>
-            </Table>
-          </Card>
-        </section>
-
-        <Divider />
-
-        {/* ── 3. Solusi ─────────────────────────────────── */}
-        <section id="solusi" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
-          <SectionHead
-            eyebrow="Solusi"
-            title="Aplikasi jualan yang dikemas seperti media sosial"
-            desc="Bukan media sosial yang kebetulan bisa jualan. Feed, like, komen, follow — tidak ada cara pakai baru yang harus dipelajari. Keamanan yang baik adalah keamanan yang tidak terasa: cukup tekan “Beli via Kahade”, semuanya beres."
-          />
-          <div className="grid gap-5 md:grid-cols-2">
-            <Card className="p-6">
-              <IconChip icon={Heart} />
-              <h3 className="mb-2 text-lg font-bold">Social commerce feed</h3>
-              <p className="text-[15px] leading-relaxed text-neutral-600">
-                Scroll feed, temukan barang menarik dari orang yang kamu follow,
-                like, komen, chat dengan penjual. Belanja menjadi hiburan:
-                penemuan, interaksi, keseruan — seperti scroll medsos biasa.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <IconChip icon={UsersThree} />
-              <h3 className="mb-2 text-lg font-bold">Fitur unik: patungan & jastip</h3>
-              <p className="text-[15px] leading-relaxed text-neutral-600">
-                Fitur yang tidak dimiliki marketplace katalog: beli bareng
-                (patungan) dan jasa titip (jastip) yang terintegrasi langsung
-                dengan transaksi aman.
-              </p>
-            </Card>
-          </div>
-          <Alert variant="info" className="mt-8">
-            Jual apa saja: barang fisik, jasa, produk digital, hingga barang
-            preloved unik — semua dalam format feed yang personal.
-          </Alert>
-        </section>
-
-        <Divider />
-
-        {/* ── 4. Model bisnis ───────────────────────────── */}
-        <section id="model-bisnis" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
-          <SectionHead
-            eyebrow="Model bisnis"
-            title="Dua sumber pendapatan yang jelas"
-            desc="Transparansi biaya adalah standar kami: semua biaya ditampilkan di awal, tidak ada biaya tersembunyi."
-          />
-          <div className="grid gap-5 md:grid-cols-2">
-            <Card className="p-7">
-              <IconChip icon={CurrencyCircleDollar} />
-              <p className="text-sm font-semibold uppercase tracking-wide text-neutral-500">
-                Biaya transaksi
-              </p>
-              <p className="mt-2 text-5xl font-extrabold tracking-tight">2,5%</p>
-              <p className="mt-3 text-[15px] leading-relaxed text-neutral-600">
-                Per transaksi. Minimum Rp2.500, maksimum Rp250.000. Jauh lebih
-                murah daripada risiko kehilangan jutaan rupiah karena tertipu.
-              </p>
-              <div className="mt-5">
-                <Badge variant="success">1.000 transaksi pertama GRATIS biaya</Badge>
+      <Container className="py-12 sm:py-16 lg:py-20">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-12">
+          <aside className="hidden lg:col-span-3 lg:block">
+            <div className="sticky top-28 max-h-[calc(100dvh-8rem)] overflow-y-auto pb-4">
+              <Toc items={TOC} />
+              <div className="mt-8 border-t border-line pt-6">
+                <p className="text-caption text-fg-subtle">Whitepaper lengkap · 17 bab</p>
+                <WhitepaperLink variant="secondary" size="sm" className="mt-3">
+                  Unduh PDF
+                </WhitepaperLink>
               </div>
-            </Card>
-            <Card className="p-7">
-              <IconChip icon={Lightning} />
-              <p className="text-sm font-semibold uppercase tracking-wide text-neutral-500">
-                Kahade Plus
-              </p>
-              <p className="mt-2 text-5xl font-extrabold tracking-tight">
-                Rp99.000<span className="text-xl font-bold text-neutral-500">/bln</span>
-              </p>
-              <p className="mt-1 text-sm text-neutral-500">
-                atau Rp899.000/tahun{" "}
-                <span className="font-semibold text-neutral-700">(hemat ~24%)</span>
-              </p>
-              <ul className="mt-4 space-y-2.5">
-                <CheckItem>Potongan 50% biaya transaksi</CheckItem>
-                <CheckItem>Kuota pembebasan biaya Rp990.000 per periode</CheckItem>
-                <CheckItem>Prioritas layanan pelanggan</CheckItem>
-                <CheckItem>Badge Plus di profil</CheckItem>
-              </ul>
-            </Card>
-          </div>
-          <div className="mt-6 grid gap-5 md:grid-cols-2">
-            <Stat label="Estimasi titik impas" value="±20.000" hint="transaksi per bulan" />
-            <Stat label="Target 6 bulan pasca-launch" value="1.000.000" hint="transaksi kumulatif" />
-          </div>
-        </section>
-
-        <Divider />
-
-        {/* ── 5. Traksi ─────────────────────────────────── */}
-        <section id="traksi" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
-          <SectionHead
-            eyebrow="Traksi & rencana"
-            title="Pre-launch — dan produknya sudah jadi"
-            desc="Berbeda dengan startup tahap ide yang masih berupa slide: risiko eksekusi teknis sudah lewat. Yang tersisa tinggal finalisasi pembayaran dan pengujian terakhir."
-          />
-          <div className="grid gap-8 lg:grid-cols-2">
-            <div>
-              <h3 className="mb-4 text-lg font-bold">Yang sudah berjalan</h3>
-              <ul className="space-y-3">
-                <CheckItem>Backend API lengkap (300+ endpoint)</CheckItem>
-                <CheckItem>Aplikasi mobile iOS & Android: feed, etalase, chat, checkout, dompet transaksi</CheckItem>
-                <CheckItem>Panel admin: moderasi, keuangan, sengketa, analitik</CheckItem>
-                <CheckItem>Web kahade.id: landing + handler deeplink</CheckItem>
-                <CheckItem>Badan hukum: PT Kawal Hak Dengan Aman (NIB & NPWP terbit)</CheckItem>
-              </ul>
             </div>
-            <div>
-              <h3 className="mb-4 text-lg font-bold">Menuju launch</h3>
-              <Steps
-                current={0}
-                steps={[
-                  {
-                    label: "Oktober 2026",
-                    description: "Finalisasi integrasi pembayaran & pengujian internal",
-                  },
-                  {
-                    label: "November 2026",
-                    description: "Beta tertutup 100–200 pengguna komunitas inti",
-                  },
-                  {
-                    label: "8 Desember 2026",
-                    description: "Launch publik + 1.000 transaksi pertama gratis biaya",
-                  },
-                  {
-                    label: "6 bulan pasca-launch",
-                    description: "1.000.000 transaksi kumulatif",
-                  },
-                ]}
-              />
-            </div>
-          </div>
-          <h3 className="mb-4 mt-12 text-xl font-bold">Go-to-market: mulai dari komunitas</h3>
-          <p className="mb-5 max-w-3xl text-[15px] leading-relaxed text-neutral-600">
-            Tanpa iklan massal. Akuisisi awal berfokus pada empat komunitas yang
-            sudah punya budaya jual-beli aktif — didukung kreator
-            micro-influencer (10rb–100rb followers) yang memang berjualan di
-            Kahade.
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                title: "Thrift / preloved",
-                desc: "Transaksi harian, harga terjangkau — cocok untuk volume.",
-              },
-              {
-                title: "Sneakers & streetwear",
-                desc: "Nilai transaksi tinggi, budaya kepercayaan komunitas kuat.",
-              },
-              {
-                title: "Fandom K-pop",
-                desc: "Frekuensi jual-beli photocard & merch sangat tinggi.",
-              },
-              {
-                title: "Kampus",
-                desc: "Early adopter alami: melek digital dan terbiasa patungan.",
-              },
-            ].map((c) => (
-              <Card key={c.title} className="p-5">
-                <h4 className="mb-1.5 font-bold">{c.title}</h4>
-                <p className="text-sm leading-relaxed text-neutral-600">{c.desc}</p>
-              </Card>
-            ))}
-          </div>
-        </section>
+          </aside>
 
-        <Divider />
-
-        {/* ── 6. Moat ───────────────────────────────────── */}
-        <section id="moat" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
-          <SectionHead
-            eyebrow="Keunggulan kompetitif"
-            title="Sulit ditiru, sulit dikejar"
-          />
-          <div className="grid gap-5 md:grid-cols-2">
-            <Card className="p-6">
-              <IconChip icon={TrendUp} />
-              <h3 className="mb-2 text-lg font-bold">Network effect bersisi sosial</h3>
-              <p className="text-[15px] leading-relaxed text-neutral-600">
-                Makin banyak penjual, makin menarik feed-nya; makin banyak
-                pembeli, makin besar peluang laku. Memindahkan "toko" berarti
-                meninggalkan followers dan reputasi — switching cost yang
-                emosional, jauh lebih sulit ditiru.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <IconChip icon={Handshake} />
-              <h3 className="mb-2 text-lg font-bold">Kepercayaan komunitas organik</h3>
-              <p className="text-[15px] leading-relaxed text-neutral-600">
-                Dibangun dari bawah lewat interaksi nyata dan ulasan jujur —
-                tidak bisa dibeli dengan budget iklan sebesar apa pun, dan
-                menyebar sendiri lewat pengguna yang puas.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <IconChip icon={ShieldCheck} />
-              <h3 className="mb-2 text-lg font-bold">Innovator dilemma kompetitor</h3>
-              <p className="text-[15px] leading-relaxed text-neutral-600">
-                Shopee dan TikTok Shop bisa meniru feed sosial — tapi tidak akan
-                sungguh-sungguh: model katalog mereka akan terkanibalisasi.
-                Fokus mereka brand dan penjual profesional, bukan pengguna
-                individu.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <IconChip icon={Lightning} />
-              <h3 className="mb-2 text-lg font-bold">Kecepatan eksekusi</h3>
-              <p className="text-[15px] leading-relaxed text-neutral-600">
-                Tim ramping: keputusan dalam hitungan jam, fitur baru dalam
-                hitungan hari. Burn rate rendah berarti runway panjang — setiap
-                rupiah bekerja lebih keras.
-              </p>
-            </Card>
-          </div>
-        </section>
-
-        <Divider />
-
-        {/* ── 7. Tim ────────────────────────────────────── */}
-        <section id="tim" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
-          <SectionHead
-            eyebrow="Tim"
-            title="Ramping sejak hari pertama"
-            desc="Tim kecil bukan keterbatasan — ini strategi. Efisiensi modal, kecepatan keputusan, dan perekrutan yang sangat selektif."
-          />
-          <Card className="flex flex-col gap-6 p-7 sm:flex-row sm:items-center">
-            <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-black text-2xl font-extrabold text-white">
-              MA
-            </span>
-            <div>
-              <h3 className="text-xl font-bold">Muhammad Agung Kurniawan</h3>
-              <p className="mt-1 text-sm font-semibold text-neutral-500">
-                Founder & CTO
-              </p>
-              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-neutral-600">
-                Membangun seluruh sistem Kahade sendiri: arsitektur backend,
-                aplikasi mobile iOS dan Android, panel admin, dan web —
-                termasuk sistem transaksi dengan perlindungan pembeli dan
-                penjual, integrasi payment gateway, notifikasi real-time, dan
-                infrastruktur server production. Tidak ada lapisan antara
-                pembuat produk dan pengguna — feedback langsung menjadi
-                perbaikan. Founder solo berarti bakar uang kecil dan setiap
-                rupiah pendanaan bekerja untuk pertumbuhan, bukan birokrasi.
-              </p>
-              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-neutral-600">
-                <span className="font-semibold text-black">
-                  Setelah pendanaan awal:
-                </span>{" "}
-                merekrut Co-Founder (bisnis/operasional), COO, 2–3 engineer,
-                1 desainer produk, dan 1 community manager.
-              </p>
-            </div>
-          </Card>
-        </section>
-
-        <Divider />
-
-        {/* ── 8. Pendanaan ──────────────────────────────── */}
-        <section id="pendanaan" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
-          <SectionHead
-            eyebrow="Pendanaan"
-            title="Pre-seed: Rp100–500 juta"
-            desc="Dana yang dicari bukan untuk membangun produk dari nol — melainkan bahan bakar untuk mendapatkan pengguna awal. Investor pre-seed masuk di valuasi terendah, sebelum traksi mendorong valuasi naik."
-          />
-          <h3 className="mb-4 text-lg font-bold">Alokasi dana</h3>
-          <div className="mb-10 space-y-4">
-            <Progress label="Marketing & akuisisi user — program komunitas, kreator, insentif awal" value={50} />
-            <Progress label="Operasional & tim — gaji tim inti, server, operasional" value={30} />
-            <Progress label="Pengembangan lanjutan — fitur pasca-launch, optimasi, riset blockchain" value={20} />
-          </div>
-          <h3 className="mb-4 text-lg font-bold">Proyeksi 12 bulan</h3>
-          <div className="mb-10">
-            <Steps
-              current={0}
-              steps={[
-                {
-                  label: "Bulan 1–3",
-                  description: "Fokus akuisisi 1.000–5.000 pengguna awal; burn rate moderat, pembelajaran di atas segalanya",
-                },
-                {
-                  label: "Bulan 4–6",
-                  description: "Dorong menuju 1 juta transaksi; unit economics diuji dengan data nyata",
-                },
-                {
-                  label: "Bulan 7–12",
-                  description: "Bila traksi sesuai target, siapkan putaran seed dengan valuasi lebih tinggi",
-                },
-              ]}
+          <div className="min-w-0 lg:col-span-9">
+            <Toc
+              items={TOC}
+              title="Di halaman ini"
+              variant="disclosure"
+              className="mb-12 lg:hidden"
             />
-          </div>
-          <h3 className="mb-4 text-lg font-bold">Struktur investasi yang fleksibel</h3>
-          <p className="mb-10 max-w-3xl text-[15px] leading-relaxed text-neutral-600">
-            Saham langsung di PT Kawal Hak Dengan Aman, atau{" "}
-            <span className="font-semibold text-black">convertible note</span>{" "}
-            yang dikonversi menjadi saham pada putaran berikutnya dengan diskon
-            valuasi.
-          </p>
-          <h3 className="mb-4 text-lg font-bold">Mengapa berinvestasi sekarang</h3>
-          <div className="grid gap-5 md:grid-cols-2">
-            {[
-              {
-                icon: ChartLineUp,
-                title: "Valuasi terendah",
-                desc: "Investasi sebelum traksi berarti harga masuk termurah.",
-              },
-              {
-                icon: Check,
-                title: "Risiko eksekusi sudah kecil",
-                desc: "Produk sudah dibangun dan siap launch — bukan sekadar slide.",
-              },
-              {
-                icon: UsersThree,
-                title: "Pasar sudah valid",
-                desc: "Jual-beli via DM adalah perilaku masif yang tinggal dipindahkan.",
-              },
-              {
-                icon: Lightning,
-                title: "Tim efisien",
-                desc: "Struktur ramping: setiap rupiah bekerja maksimal untuk pertumbuhan.",
-              },
-            ].map((r) => (
-              <Card key={r.title} className="p-6">
-                <IconChip icon={r.icon} tone="light" />
-                <h4 className="mb-1.5 font-bold">{r.title}</h4>
-                <p className="text-[15px] text-neutral-600">{r.desc}</p>
-              </Card>
-            ))}
-          </div>
-          <Alert variant="info" className="mt-8">
-            Visi jangka panjang: ekspansi regional dan riset blockchain memberi
-            upside moonshot, sementara rencana bisnis inti memberi jalur jelas
-            menuju profitabilitas.
-          </Alert>
-          <div className="mt-8">
-            <ButtonLink href="#kontak" size="lg" rightIcon={ArrowRight}>
-              Tertarik berinvestasi? Hubungi kami
-            </ButtonLink>
-          </div>
-        </section>
 
-        <Divider />
+            <div>
 
-        {/* ── 9. FAQ ────────────────────────────────────── */}
-        <section id="faq" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
-          <SectionHead
-            eyebrow="FAQ"
-            title="Pertanyaan umum"
-            desc="Hal yang paling sering ditanyakan calon investor tentang putaran pre-seed Kahade."
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-          />
-          <Accordion
-            items={FAQ.map((f, i) => ({
-              id: `faq-${i}`,
-              title: f.q,
-              content: <p className="text-[15px] leading-relaxed text-neutral-600">{f.a}</p>,
-            }))}
-          />
-        </section>
+              {/* 01 — Masalah */}
+              <MemoSection
+                id="masalah"
+                title="Perilakunya sudah ada. Platformnya belum."
+                description="Jutaan anak muda Indonesia jual-beli lewat DM Instagram, X, dan WhatsApp setiap hari: thrift, sneakers, merchandise K-pop, jasa desain, produk digital. Tiga masalah besar belum terselesaikan."
+              >
+                <IndexList
+                  aria-label="Tiga masalah"
+                  items={PROBLEMS.map((p, i) => ({
+                    key: p.title,
+                    index: String(i + 1),
+                    title: p.title,
+                    description: p.desc,
+                  }))}
+                />
 
-        {/* ── 10. Kontak ─────────────────────────────────── */}
-        <section id="kontak" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
-          <SectionHead
-            eyebrow="Kontak"
-            title="Mari bicara"
-            desc="Tertarik berinvestasi atau ingin tahu lebih dalam? Whitepaper lengkap (17 bab) tersedia untuk diunduh. Kami merespons maksimal 2 hari kerja."
-          />
-          <Card className="flex flex-col items-start gap-5 p-7 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-4">
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black">
-                <Icon icon={EnvelopeSimple} size={22} className="text-white" />
-              </span>
-              <div>
-                <p className="text-sm font-semibold text-neutral-500">Email investor</p>
-                <p className="text-lg font-bold">{EMAIL}</p>
+                <SubHeading className="mt-16">Celah di pasar</SubHeading>
+                <div
+                  role="region"
+                  aria-label="Tabel celah di pasar (bisa digulir ke samping)"
+                  tabIndex={0}
+                  className="overflow-x-auto"
+                >
+                  <Table className="min-w-[34rem]">
+                    <THead>
+                      <TR>
+                        <TH scope="col" className="sticky left-0 z-10 bg-surface">
+                          Aspek
+                        </TH>
+                        <TH scope="col">Jual-beli via DM</TH>
+                        <TH scope="col">Marketplace besar</TH>
+                        <th
+                          scope="col"
+                          className="border-b border-fg bg-surface-2 px-4 py-3 text-left text-caption font-semibold text-fg"
+                        >
+                          Kahade
+                        </th>
+                      </TR>
+                    </THead>
+                    <TBody>
+                      {MARKET_GAP.map(([aspek, dm, mp, kahade]) => (
+                        <TR key={aspek}>
+                          <th
+                            scope="row"
+                            className="sticky left-0 z-10 border-b border-line bg-surface py-4 pr-6 text-left align-top font-semibold text-fg"
+                          >
+                            {aspek}
+                          </th>
+                          <TD>{dm}</TD>
+                          <TD>{mp}</TD>
+                          <td className="border-b border-line bg-surface-2 px-4 py-4 align-top">
+                            <span className="inline-flex items-center gap-1.5 font-semibold text-fg">
+                              <Icon icon={Check} size={16} />
+                              {kahade}
+                            </span>
+                          </td>
+                        </TR>
+                      ))}
+                    </TBody>
+                  </Table>
+                </div>
+                <p className="mt-3 text-caption text-fg-subtle sm:hidden">
+                  Geser tabel ke samping untuk melihat semua kolom.
+                </p>
+              </MemoSection>
+
+              {/* 02 — Solusi */}
+              <MemoSection
+                id="solusi"
+                title="Aplikasi jualan yang dikemas seperti media sosial"
+                description="Bukan media sosial yang kebetulan bisa jualan. Feed, like, komen, follow — tidak ada cara pakai baru yang harus dipelajari. Keamanan yang baik adalah keamanan yang tidak terasa: cukup tekan “Beli via Kahade”, semuanya beres."
+              >
+                <RuleGrid items={FEATURES} />
+                <p className="mt-10 max-w-[40rem] border-l-2 border-fg pl-5 text-lead text-fg">
+                  Jual apa saja: barang fisik, jasa, produk digital, hingga barang
+                  preloved unik — semua dalam format feed yang personal.
+                </p>
+              </MemoSection>
+
+              {/* 03 — Model bisnis */}
+              <MemoSection
+                id="model-bisnis"
+                title="Dua sumber pendapatan yang jelas"
+                description="Transparansi biaya adalah standar kami: semua biaya ditampilkan di awal, tidak ada biaya tersembunyi."
+              >
+                <div className="grid gap-12 md:grid-cols-2 md:gap-10">
+                  <div className="border-t-2 border-fg pt-6">
+                    <h3 className="text-small font-semibold text-fg-muted">Biaya transaksi</h3>
+                    <p className="mt-3 text-h1 text-fg tabular-nums">2,5%</p>
+                    <p className="mt-4 text-body text-fg-muted">
+                      Per transaksi. Minimum Rp2.500, maksimum Rp250.000. Jauh lebih
+                      murah daripada risiko kehilangan jutaan rupiah karena tertipu.
+                    </p>
+                    <p className="mt-5 flex items-start gap-3 border-t border-line pt-4 text-body font-semibold text-fg">
+                      <Icon icon={Check} size={18} className="mt-0.5" />
+                      1.000 transaksi pertama gratis biaya
+                    </p>
+                  </div>
+                  <div className="border-t-2 border-fg pt-6">
+                    <h3 className="text-small font-semibold text-fg-muted">Kahade Plus</h3>
+                    <p className="mt-3 text-h1 text-fg tabular-nums">
+                      Rp99.000
+                      <span className="text-h4 text-fg-muted">/bln</span>
+                    </p>
+                    <p className="mt-4 text-body text-fg-muted tabular-nums">
+                      atau Rp899.000/tahun{" "}
+                      <span className="font-semibold text-fg">(hemat ~24%)</span>
+                    </p>
+                    <CheckList items={PLUS_BENEFITS} className="mt-5" />
+                  </div>
+                </div>
+                <div className="mt-14 grid gap-10 sm:grid-cols-2">
+                  <Stat label="Estimasi titik impas" value="±20.000" hint="transaksi per bulan" />
+                  <Stat
+                    label="Target 6 bulan pasca-launch"
+                    value="1.000.000"
+                    hint="transaksi kumulatif"
+                  />
+                </div>
+              </MemoSection>
+
+              {/* 04 — Traksi & rencana */}
+              <MemoSection
+                id="traksi"
+                title="Pre-launch — dan produknya sudah jadi"
+                description="Berbeda dengan startup tahap ide yang masih berupa slide: risiko eksekusi teknis sudah lewat. Yang tersisa tinggal finalisasi pembayaran dan pengujian terakhir."
+              >
+                <div className="grid gap-12 xl:grid-cols-2 xl:gap-10">
+                  <div>
+                    <SubHeading>Yang sudah berjalan</SubHeading>
+                    <CheckList items={SHIPPED} />
+                  </div>
+                  <div>
+                    <SubHeading>Menuju launch</SubHeading>
+                    <div className="border-t border-line pt-6">
+                      <Steps current={0} steps={LAUNCH_STEPS} />
+                    </div>
+                  </div>
+                </div>
+
+                <SubHeading className="mt-16">Go-to-market: mulai dari komunitas</SubHeading>
+                <p className="mb-8 max-w-[40rem] text-body text-fg-muted">
+                  Tanpa iklan massal. Akuisisi awal berfokus pada empat komunitas yang
+                  sudah punya budaya jual-beli aktif — didukung kreator
+                  micro-influencer (10rb–100rb followers) yang memang berjualan di
+                  Kahade.
+                </p>
+                <DescriptionList
+                  items={COMMUNITIES.map((c) => ({ key: c.title, term: c.title, detail: c.desc }))}
+                />
+              </MemoSection>
+
+              {/* 05 — Keunggulan kompetitif */}
+              <MemoSection id="moat" title="Sulit ditiru, sulit dikejar">
+                <IndexList
+                  aria-label="Keunggulan kompetitif"
+                  items={MOATS.map((m, i) => ({
+                    key: m.title,
+                    index: String(i + 1),
+                    title: m.title,
+                    description: m.desc,
+                  }))}
+                />
+              </MemoSection>
+
+              {/* 06 — Tim */}
+              <MemoSection
+                id="tim"
+                title="Ramping sejak hari pertama"
+                description="Tim kecil bukan keterbatasan — ini strategi. Efisiensi modal, kecepatan keputusan, dan perekrutan yang sangat selektif."
+              >
+                <article className="grid gap-8 border-t border-line pt-8 md:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] md:gap-10">
+                  <div className="flex items-center gap-4 md:flex-col md:items-start">
+                    {/* Inisial dekoratif: nama lengkap diumumkan oleh judul di sebelahnya. */}
+                    <span aria-hidden="true">
+                      <Avatar name="Muhammad Agung" size="lg" />
+                    </span>
+                    <div>
+                      <h3 className="text-h4 text-fg">Muhammad Agung Kurniawan</h3>
+                      <p className="mt-0.5 text-small text-fg-muted">Founder & CTO</p>
+                    </div>
+                  </div>
+                  <div className="min-w-0 max-w-reading">
+                    <div className="space-y-4 text-body-lg text-fg-2">
+                      <p>
+                        Membangun seluruh sistem Kahade sendiri: arsitektur backend,
+                        aplikasi mobile iOS dan Android, panel admin, dan web —
+                        termasuk sistem transaksi dengan perlindungan pembeli dan
+                        penjual, integrasi payment gateway, notifikasi real-time, dan
+                        infrastruktur server production.
+                      </p>
+                      <p>
+                        Tidak ada lapisan antara pembuat produk dan pengguna — feedback
+                        langsung menjadi perbaikan. Founder solo berarti bakar uang
+                        kecil dan setiap rupiah pendanaan bekerja untuk pertumbuhan,
+                        bukan birokrasi.
+                      </p>
+                    </div>
+                    <h4 className="mt-10 text-small font-semibold text-fg">
+                      Setelah pendanaan awal, merekrut:
+                    </h4>
+                    <ul className="mt-3 border-t border-line">
+                      {HIRING_PLAN.map((role) => (
+                        <li key={role} className="border-b border-line py-3 text-body text-fg-2">
+                          {role}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </MemoSection>
+
+              {/* 07 — Pendanaan */}
+              <MemoSection
+                id="pendanaan"
+                title="Pre-seed: Rp100–500 juta"
+                description="Dana yang dicari bukan untuk membangun produk dari nol — melainkan bahan bakar untuk mendapatkan pengguna awal. Investor pre-seed masuk di valuasi terendah, sebelum traksi mendorong valuasi naik."
+              >
+                <SubHeading>Alokasi dana</SubHeading>
+                <ul className="border-t border-line">
+                  {ALLOCATION.map((a) => (
+                    <li key={a.title} className="border-b border-line py-5">
+                      <div className="flex items-baseline justify-between gap-6">
+                        <p className="min-w-0">
+                          <span className="text-body font-semibold text-fg">{a.title}</span>
+                          <span className="mt-0.5 block text-small text-fg-muted">{a.desc}</span>
+                        </p>
+                        <p className="shrink-0 text-h3 text-fg tabular-nums">{a.value}%</p>
+                      </div>
+                      <div aria-hidden="true" className="mt-4 h-2 w-full rounded-full bg-surface-3">
+                        <div className="h-full rounded-full bg-fg" style={{ width: `${a.value}%` }} />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <SubHeading className="mt-16">Proyeksi 12 bulan</SubHeading>
+                <DescriptionList items={PROJECTION.map((p) => ({ key: p.term, ...p }))} />
+
+                <SubHeading className="mt-16">Struktur investasi yang fleksibel</SubHeading>
+                <p className="max-w-[40rem] text-body-lg text-fg-2">
+                  Saham langsung di PT Kawal Hak Dengan Aman, atau{" "}
+                  <strong className="font-semibold text-fg">convertible note</strong>{" "}
+                  yang dikonversi menjadi saham pada putaran berikutnya dengan diskon
+                  valuasi.
+                </p>
+
+                <SubHeading className="mt-16">Mengapa berinvestasi sekarang</SubHeading>
+                <RuleGrid items={WHY_NOW} titleAs="h4" />
+
+                <p className="mt-10 max-w-[40rem] border-l-2 border-fg pl-5 text-body-lg text-fg-2">
+                  Visi jangka panjang: ekspansi regional dan riset blockchain memberi
+                  upside moonshot, sementara rencana bisnis inti memberi jalur jelas
+                  menuju profitabilitas.
+                </p>
+
+                <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+                  <p className="text-h4 text-fg">Tertarik berinvestasi?</p>
+                  <ContactLink variant="primary" size="lg">
+                    Hubungi kami
+                  </ContactLink>
+                </div>
+              </MemoSection>
+
+              {/* 08 — FAQ */}
+              <MemoSection
+                id="faq"
+                title="Pertanyaan umum"
+                description="Hal yang paling sering ditanyakan calon investor tentang putaran pre-seed Kahade."
+              >
+                <Accordion
+                  size="lg"
+                  items={FAQ.map((f, i) => ({
+                    id: `faq-${i}`,
+                    title: f.q,
+                    content: <p>{f.a}</p>,
+                  }))}
+                />
+              </MemoSection>
+            </div>
+          </div>
+        </div>
+      </Container>
+
+      {/* 09 — Kontak: strip penutup */}
+      <section
+        id="kontak"
+        aria-labelledby="kontak-judul"
+        className="scroll-mt-16 bg-surface-inverse text-white"
+      >
+        <Container className="py-16 sm:py-20 lg:py-24">
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-5">
+              <Eyebrow index={indexOf("kontak")} inverse className="mb-5">
+                Kontak
+              </Eyebrow>
+              <h2 id="kontak-judul" className="text-h3 text-white">
+                Mari bicara
+              </h2>
+              <p className="mt-4 max-w-[34rem] text-body-lg text-white/70">
+                Tertarik berinvestasi atau ingin tahu lebih dalam? Whitepaper
+                lengkap (17 bab) tersedia untuk diunduh. Kami merespons maksimal
+                2 hari kerja.
+              </p>
+            </div>
+            <div className="min-w-0 lg:col-span-7 lg:border-l lg:border-white/15 lg:pl-12">
+              <p className="text-small text-white/60">Email investor</p>
+              <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-4">
+                <a
+                  href={MAIL_INVEST}
+                  className="min-w-0 break-words text-h2 text-white underline decoration-white/30 decoration-1 underline-offset-[6px] hover:decoration-white"
+                >
+                  {EMAIL}
+                </a>
+                <CopyButton text={EMAIL} label="Salin email" />
+              </div>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <ButtonLink href={MAIL_INVEST} variant="inverse">
+                  Kirim email
+                </ButtonLink>
+                <ButtonLink href={MAIL_CALL} variant="inverseSecondary">
+                  Jadwalkan panggilan
+                </ButtonLink>
               </div>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <CopyButton text={EMAIL} label="Salin email" />
-              <ButtonLink href={`mailto:${EMAIL}?subject=Investasi%20Pre-Seed%20Kahade`} rightIcon={ArrowSquareOut}>
-                Kirim email
-              </ButtonLink>
-              <ButtonLink
-                href={`mailto:${EMAIL}?subject=Jadwal%20Panggilan%20%E2%80%94%20Investasi%20Pre-Seed%20Kahade&body=Halo%2C%0A%0ASaya%20tertarik%20berdiskusi%20lebih%20lanjut%20tentang%20investasi%20pre-seed%20Kahade.%20Mohon%20info%20jadwal%20yang%20tersedia.%0A%0ATerima%20kasih.`}
-                variant="secondary"
-                rightIcon={ArrowSquareOut}
+          </div>
+
+          <ul className="mt-14 flex flex-wrap gap-x-8 gap-y-1 border-t border-white/15 pt-6">
+            <li>
+              <TextLink href={WHITEPAPER_HREF} download inverse arrow="none">
+                Unduh whitepaper (PDF)
+              </TextLink>
+            </li>
+            <li>
+              <TextLink
+                href="https://kahade.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                inverse
+                arrow="external"
               >
-                Jadwalkan panggilan
-              </ButtonLink>
-            </div>
-          </Card>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <ButtonLink href="/whitepaper-kahade.pdf" download variant="secondary" leftIcon={FileText}>
-              Unduh whitepaper (PDF)
-            </ButtonLink>
-            <ButtonLink href="https://kahade.id" target="_blank" rel="noopener noreferrer" variant="ghost" rightIcon={ArrowSquareOut}>
-              kahade.id
-            </ButtonLink>
-            <ButtonLink href="https://karir.kahade.id" target="_blank" rel="noopener noreferrer" variant="ghost" rightIcon={ArrowSquareOut}>
-              karir.kahade.id
-            </ButtonLink>
-          </div>
-        </section>
-      </main>
-
-      {/* ── Footer ──────────────────────────────────────── */}
-      <footer className="border-t border-neutral-100">
-        <div className="mx-auto max-w-6xl px-5 py-8">
-          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-2.5">
-              {/* Logo dekoratif: teks "Kahade" di sebelahnya sudah diumumkan SR. */}
-              <span aria-hidden="true">
-                <Logo size={24} />
-              </span>
-              <span className="text-sm font-bold">Kahade</span>
-            </div>
-            <nav
-              aria-label="Situs Kahade"
-              className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm"
-            >
-              {[
-                { label: "kahade.id", href: "https://kahade.id" },
-                { label: "Karir", href: "https://karir.kahade.id" },
-                { label: "Legalitas", href: "https://legal.kahade.id" },
-                { label: "Bantuan", href: "https://bantuan.kahade.id" },
-                { label: "Status Layanan", href: "https://status.kahade.id" },
-                { label: "Artikel", href: "https://artikel.kahade.id" },
-              ].map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  className="text-neutral-500 transition-colors hover:text-black"
-                >
-                  {l.label}
-                </a>
-              ))}
-            </nav>
-          </div>
-          <p className="mt-4 flex items-center gap-1.5 text-xs text-neutral-500">
-            <Icon icon={Buildings} size={14} />
-            PT Kawal Hak Dengan Aman · NIB & NPWP terbit · ©{" "}
-            {new Date().getFullYear()}
-          </p>
-        </div>
-      </footer>
-
-    </div>
+                kahade.id
+              </TextLink>
+            </li>
+            <li>
+              <TextLink
+                href="https://karir.kahade.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                inverse
+                arrow="external"
+              >
+                karir.kahade.id
+              </TextLink>
+            </li>
+          </ul>
+        </Container>
+      </section>
+    </>
   );
 }

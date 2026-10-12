@@ -1,19 +1,34 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+export const alt = "Investasi di Kahade — peluang pre-seed niaga sosial Indonesia.";
 
-const ZIGZAG = (
-  <svg width="72" height="72" viewBox="0 0 512 512">
-    <rect width="512" height="512" rx="112" fill="#FFD200" />
-    <g transform="translate(101,66) scale(0.742)" fill="#000000">
-      <path d="M164.7 248.4 C155.5 215.9 180.8 198.3 206.8 186.5 C257 163.9 336.5 149 378.6 127.8 C430.6 101.7 419.4 61.4 368.9 44 C350.5 37.6 331.7 32.4 313.4 25.9 C286.9 16.6 259.5 6.9 232.2 0 C231.3 55.4 211.7 57.7 166.8 77.2 C137.7 89.8 45.4 120.3 28.3 130.9 C-15 157.8 -7.1 197.4 41.7 213.6 C58 219.1 74.6 223.6 90.9 229 C114.7 237 140 243.8 164.7 248.4Z" />
-      <path d="M252.9 263.6 C262.1 296.1 236.8 313.7 210.7 325.5 C160.5 348.1 81 363 39 384.2 C-13.1 410.3 -1.8 450.6 48.7 468 C67.1 474.4 85.8 479.6 104.2 486.1 C130.7 495.4 158.1 505.1 185.3 512 C186.2 456.6 205.8 454.3 250.7 434.8 C279.9 422.2 372.2 391.7 389.3 381.1 C432.5 354.2 424.7 314.6 375.9 298.4 C359.5 292.9 343 288.4 326.7 283 C302.9 275 277.6 268.2 252.9 263.6Z" />
-    </g>
+/* Path mark identik dengan komponen Logo di @kahade/ui (viewBox 417.6 × 512). */
+const MARK = (
+  <svg width="78" height="96" viewBox="0 0 417.6 512" fill="#FFD200">
+    <path d="M164.7 248.4 C155.5 215.9 180.8 198.3 206.8 186.5 C257 163.9 336.5 149 378.6 127.8 C430.6 101.7 419.4 61.4 368.9 44 C350.5 37.6 331.7 32.4 313.4 25.9 C286.9 16.6 259.5 6.9 232.2 0 C231.3 55.4 211.7 57.7 166.8 77.2 C137.7 89.8 45.4 120.3 28.3 130.9 C-15 157.8 -7.1 197.4 41.7 213.6 C58 219.1 74.6 223.6 90.9 229 C114.7 237 140 243.8 164.7 248.4Z" />
+    <path d="M252.9 263.6 C262.1 296.1 236.8 313.7 210.7 325.5 C160.5 348.1 81 363 39 384.2 C-13.1 410.3 -1.8 450.6 48.7 468 C67.1 474.4 85.8 479.6 104.2 486.1 C130.7 495.4 158.1 505.1 185.3 512 C186.2 456.6 205.8 454.3 250.7 434.8 C279.9 422.2 372.2 391.7 389.3 381.1 C432.5 354.2 424.7 314.6 375.9 298.4 C359.5 292.9 343 288.4 326.7 283 C302.9 275 277.6 268.2 252.9 263.6Z" />
   </svg>
 );
 
-export default function OgImage() {
+/** Font lokal (tanpa fetch jaringan saat build). */
+async function loadFonts() {
+  const dir = join(process.cwd(), "assets/fonts");
+  const [medium, bold] = await Promise.all([
+    readFile(join(dir, "PlusJakartaSans-Medium.ttf")),
+    readFile(join(dir, "PlusJakartaSans-Bold.ttf")),
+  ]);
+  return [
+    { name: "Plus Jakarta Sans", data: medium, weight: 500 as const, style: "normal" as const },
+    { name: "Plus Jakarta Sans", data: bold, weight: 700 as const, style: "normal" as const },
+  ];
+}
+
+export default async function OgImage() {
+  const fonts = await loadFonts();
   return new ImageResponse(
     (
       <div
@@ -22,35 +37,49 @@ export default function OgImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
+          justifyContent: "space-between",
           padding: "80px",
-          background: "#ffffff",
-          color: "#000000",
-          fontFamily: "sans-serif",
+          background: "#000000",
+          color: "#ffffff",
+          fontFamily: "Plus Jakarta Sans",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>{ZIGZAG}</div>
-        <div
-          style={{
-            marginTop: "48px",
-            display: "flex",
-            flexDirection: "column",
-            fontSize: "72px",
-            fontWeight: 800,
-            lineHeight: 1.15,
-            letterSpacing: "-2px",
-          }}
-        >
-          <div>Investasi di Kahade</div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {MARK}
+          <div
+            style={{
+              marginLeft: "28px",
+              paddingLeft: "28px",
+              borderLeft: "2px solid #525252",
+              fontSize: "32px",
+              fontWeight: 700,
+              color: "#ffffff",
+            }}
+          >
+            Investor
+          </div>
         </div>
-        <div style={{ marginTop: "24px", fontSize: "28px", color: "#525252" }}>
-          Peluang pre-seed niaga sosial Indonesia.
-        </div>
-        <div style={{ marginTop: "12px", fontSize: "24px", color: "#a3a3a3" }}>
-          investor.kahade.id
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: "88px",
+              fontWeight: 700,
+              lineHeight: 1.05,
+              letterSpacing: "-3px",
+            }}
+          >
+            Investasi di Kahade
+          </div>
+          <div style={{ marginTop: "24px", fontSize: "32px", fontWeight: 500, color: "#d4d4d4" }}>
+            Peluang pre-seed niaga sosial Indonesia.
+          </div>
+          <div style={{ marginTop: "40px", fontSize: "24px", fontWeight: 500, color: "#a3a3a3" }}>
+            investor.kahade.id
+          </div>
         </div>
       </div>
     ),
-    { ...size }
+    { ...size, fonts }
   );
 }
