@@ -3,24 +3,9 @@
 @import "@kahade/ui/styles/base.css";
 
 /* WAJIB: Tailwind v4 tidak men-scan node_modules — tanpa ini, utility class
-   yang hanya dipakai di source @kahade/ui (mis. pl-11 di SearchField) tidak
-   ter-generate dan layout DS rusak diam-diam. */
+   yang hanya dipakai di source @kahade/ui tidak ter-generate. */
 @source "../node_modules/@kahade/ui/src";
 
 html {
   scroll-behavior: smooth;
-}
-
-/* Hormati prefers-reduced-motion: matikan smooth scroll, animasi, dan transisi. */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  ::before,
-  ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
 }
